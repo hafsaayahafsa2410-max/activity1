@@ -8,94 +8,201 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CommandLineUI {
-
-    private AppFacade app;
-    private Scanner scanner = new Scanner(System.in);
+    private final AppFacade app;
+    private final Scanner scanner;
 
     public CommandLineUI(AppFacade app) {
         this.app = app;
+        this.scanner = new Scanner(System.in);
     }
 
     public void start() {
         boolean running = true;
 
         while (running) {
-            System.out.println("\n==== MAIN MENU ====");
-            System.out.println("1. Add Author");
-            System.out.println("2. List Authors");
-            System.out.println("3. Add Paper");
-            System.out.println("4. List Papers");
-            System.out.println("0. Exit");
-            System.out.print("Choose option: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            printMainMenu();
+            int choice = readInt("Choose an option: ");
 
             switch (choice) {
-                case 1 -> addAuthor();
-                case 2 -> listAuthors();
-                case 3 -> addPaper();
-                case 4 -> listPapers();
-                case 0 -> {
-                    running = false;
-                    System.out.println("Goodbye!");
-                }
-                default -> System.out.println("Invalid option.");
+                case 1 -> authorMenu();
+                case 2 -> paperMenu();
+                case 0 -> running = false;
+                default -> System.out.println("Invalid choice. Try again.");
+            }
+        }
+
+        System.out.println("Goodbye!");
+    }
+
+    // ---------------- MAIN MENU ----------------
+    private void printMainMenu() {
+        System.out.println("\n=== MAIN MENU ===");
+        System.out.println("1) Manage Authors");
+        System.out.println("2) Manage Papers");
+        System.out.println("0) Exit");
+    }
+
+    // ---------------- AUTHOR MENU ----------------
+    private void authorMenu() {
+        boolean back = false;
+
+        while (!back) {
+            System.out.println("\n=== AUTHOR MENU ===");
+            System.out.println("1) Save Author");
+            System.out.println("2) Update Author");
+            System.out.println("3) Delete Author");
+            System.out.println("4) Find Author by ID");
+            System.out.println("5) Count Authors");
+            System.out.println("6) List Authors Sorted by Name");
+            System.out.println("7) Search Authors by Name");
+            System.out.println("0) Back");
+
+            int choice = readInt("Choose an option: ");
+
+            switch (choice) {
+                case 1 -> saveAuthor();
+                case 2 -> updateAuthor();
+                case 3 -> deleteAuthor();
+                case 4 -> findAuthorById();
+                case 5 -> System.out.println("Author count: " + app.countAuthors());
+                case 6 -> printList(app.listAuthorsSortedByName());
+                case 7 -> searchAuthorsByName();
+                case 0 -> back = true;
+                default -> System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
-    private void addAuthor() {
-        System.out.print("Author ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+    private void saveAuthor() {
+        int id = readInt("Author id: ");
+        String name = readLine("Author name: ");
+        String email = readLine("Author email: ");
 
-        System.out.print("Author name: ");
-        String name = scanner.nextLine();
-
-        System.out.print("Author email: ");
-        String email = scanner.nextLine();
-
-        Author author = new Author(id, name, email);
-        app.saveAuthor(author);
-
-        System.out.println("Author added.");
+        Author saved = app.saveAuthor(new Author(id, name, email));
+        System.out.println("Saved: " + saved);
     }
 
-    private void listAuthors() {
-        List<Author> authors = app.listAuthors();
-        System.out.println("\n--- AUTHORS ---");
-        for (Author a : authors) {
-            System.out.println(a);
+    private void updateAuthor() {
+        int id = readInt("Author id to update: ");
+        String name = readLine("New name: ");
+        String email = readLine("New email: ");
+
+        Author updated = app.updateAuthor(new Author(id, name, email));
+        System.out.println("Updated: " + updated);
+    }
+
+    private void deleteAuthor() {
+        int id = readInt("Author id to delete: ");
+        boolean ok = app.deleteAuthor(id);
+        System.out.println(ok ? "Deleted author " + id : "Author not found.");
+    }
+
+    private void findAuthorById() {
+        int id = readInt("Author id: ");
+        Author a = app.findAuthorById(id);
+        System.out.println(a != null ? a : "Author not found.");
+    }
+
+    private void searchAuthorsByName() {
+        String name = readLine("Name to search: ");
+        List<Author> results = app.findAuthorsByName(name);
+        printList(results);
+    }
+
+    // ---------------- PAPER MENU ----------------
+    private void paperMenu() {
+        boolean back = false;
+
+        while (!back) {
+            System.out.println("\n=== PAPER MENU ===");
+            System.out.println("1) Save Paper");
+            System.out.println("2) Update Paper");
+            System.out.println("3) Delete Paper");
+            System.out.println("4) Find Paper by ID");
+            System.out.println("5) Count Papers");
+            System.out.println("6) List Papers Sorted by Title");
+            System.out.println("7) Search Papers by Title");
+            System.out.println("0) Back");
+
+            int choice = readInt("Choose an option: ");
+
+            switch (choice) {
+                case 1 -> savePaper();
+                case 2 -> updatePaper();
+                case 3 -> deletePaper();
+                case 4 -> findPaperById();
+                case 5 -> System.out.println("Paper count: " + app.countPapers());
+                case 6 -> printList(app.listPapersSortedByTitle());
+                case 7 -> searchPapersByTitle();
+                case 0 -> back = true;
+                default -> System.out.println("Invalid choice. Try again.");
+            }
         }
     }
 
-    private void addPaper() {
-        System.out.print("Paper ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+    private void savePaper() {
+        int id = readInt("Paper id: ");
+        String title = readLine("Paper title: ");
+        int year = readInt("Paper year: ");
+        int authorId = readInt("Author id (who wrote it): ");
 
-        System.out.print("Paper title: ");
-        String title = scanner.nextLine();
-
-        System.out.print("Publication year: ");
-        int year = scanner.nextInt();
-
-        System.out.print("Author ID: ");
-        int authorId = scanner.nextInt();
-        scanner.nextLine();
-
-        Paper paper = new Paper(id, title, year, authorId);
-        app.savePaper(paper);
-
-        System.out.println("Paper added.");
+        Paper saved = app.savePaper(new Paper(id, title, year, authorId));
+        System.out.println("Saved: " + saved);
     }
 
-    private void listPapers() {
-        List<Paper> papers = app.listPapers();
-        System.out.println("\n--- PAPERS ---");
-        for (Paper p : papers) {
-            System.out.println(p);
+    private void updatePaper() {
+        int id = readInt("Paper id to update: ");
+        String title = readLine("New title: ");
+        int year = readInt("New year: ");
+        int authorId = readInt("Author id (who wrote it): ");
+
+        Paper updated = app.updatePaper(new Paper(id, title, year, authorId));
+        System.out.println("Updated: " + updated);
+    }
+
+    private void deletePaper() {
+        int id = readInt("Paper id to delete: ");
+        boolean ok = app.deletePaper(id);
+        System.out.println(ok ? "Deleted paper " + id : "Paper not found.");
+    }
+
+    private void findPaperById() {
+        int id = readInt("Paper id: ");
+        Paper p = app.findPaperById(id);
+        System.out.println(p != null ? p : "Paper not found.");
+    }
+
+    private void searchPapersByTitle() {
+        String title = readLine("Title to search: ");
+        List<Paper> results = app.findPapersByTitle(title);
+        printList(results);
+    }
+
+    // ---------------- HELPERS ----------------
+    private int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String s = scanner.nextLine().trim();
+            try {
+                return Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid integer.");
+            }
+        }
+    }
+
+    private String readLine(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine().trim();
+    }
+
+    private <T> void printList(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("(no results)");
+            return;
+        }
+        for (T item : list) {
+            System.out.println(item);
         }
     }
 }
