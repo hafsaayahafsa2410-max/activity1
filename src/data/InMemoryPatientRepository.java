@@ -1,4 +1,11 @@
 package data;
+/*
+ * InMemoryDoctorRepository.java
+ * This is the in-memory implementation for DoctorRepository.
+ * we store doctors in a HashMap (id -> Doctor) so find/delete are fast.
+ * we also support sorting by name and searching by name.
+ * Later, if we wanted a real database, we could replace this class without changing the business layer.
+ */
 
 import model.Patient;
 

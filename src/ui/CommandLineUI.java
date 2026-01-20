@@ -1,8 +1,8 @@
 package ui;
 
 import app.AppFacade;
-import model.Author;
-import model.Paper;
+import model.Doctor;
+import model.Patient;
 
 import java.util.List;
 import java.util.Scanner;
@@ -24,8 +24,8 @@ public class CommandLineUI {
             int choice = readInt("Choose an option: ");
 
             switch (choice) {
-                case 1 -> authorMenu();
-                case 2 -> paperMenu();
+                case 1 -> doctorMenu();
+                case 2 -> patientMenu();
                 case 0 -> running = false;
                 default -> System.out.println("Invalid choice. Try again.");
             }
@@ -37,144 +37,144 @@ public class CommandLineUI {
     // ---------------- MAIN MENU ----------------
     private void printMainMenu() {
         System.out.println("\n=== MAIN MENU ===");
-        System.out.println("1) Manage Authors");
-        System.out.println("2) Manage Papers");
+        System.out.println("1) Manage Doctors");
+        System.out.println("2) Manage Patients");
         System.out.println("0) Exit");
     }
 
-    // ---------------- AUTHOR MENU ----------------
-    private void authorMenu() {
+    // ---------------- DOCTOR MENU ----------------
+    private void doctorMenu() {
         boolean back = false;
 
         while (!back) {
-            System.out.println("\n=== AUTHOR MENU ===");
-            System.out.println("1) Save Author");
-            System.out.println("2) Update Author");
-            System.out.println("3) Delete Author");
-            System.out.println("4) Find Author by ID");
-            System.out.println("5) Count Authors");
-            System.out.println("6) List Authors Sorted by Name");
-            System.out.println("7) Search Authors by Name");
+            System.out.println("\n=== DOCTOR MENU ===");
+            System.out.println("1) Save Doctor");
+            System.out.println("2) Update Doctor");
+            System.out.println("3) Delete Doctor");
+            System.out.println("4) Find Doctor by ID");
+            System.out.println("5) Count Doctors");
+            System.out.println("6) List Doctors Sorted by Name");
+            System.out.println("7) Search Doctors by Name");
             System.out.println("0) Back");
 
             int choice = readInt("Choose an option: ");
 
             switch (choice) {
-                case 1 -> saveAuthor();
-                case 2 -> updateAuthor();
-                case 3 -> deleteAuthor();
-                case 4 -> findAuthorById();
-                case 5 -> System.out.println("Author count: " + app.countAuthors());
-                case 6 -> printList(app.listAuthorsSortedByName());
-                case 7 -> searchAuthorsByName();
+                case 1 -> saveDoctor();
+                case 2 -> updateDoctor();
+                case 3 -> deleteDoctor();
+                case 4 -> findDoctorById();
+                case 5 -> System.out.println("Doctor count: " + app.countDoctors());
+                case 6 -> printList(app.listDoctorsSortedByName());
+                case 7 -> searchDoctorsByName();
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
-    private void saveAuthor() {
-        int id = readInt("Author id: ");
-        String name = readLine("Author name: ");
-        String email = readLine("Author email: ");
+    private void saveDoctor() {
+        int id = readInt("Doctor id: ");
+        String name = readLine("Doctor name: ");
+        String specialty = readLine("Doctor specialty: ");
 
-        Author saved = app.saveAuthor(new Author(id, name, email));
+        Doctor saved = app.saveDoctor(new Doctor(id, name, specialty));
         System.out.println("Saved: " + saved);
     }
 
-    private void updateAuthor() {
-        int id = readInt("Author id to update: ");
+    private void updateDoctor() {
+        int id = readInt("Doctor id to update: ");
         String name = readLine("New name: ");
-        String email = readLine("New email: ");
+        String specialty = readLine("New specialty: ");
 
-        Author updated = app.updateAuthor(new Author(id, name, email));
+        Doctor updated = app.updateDoctor(new Doctor(id, name, specialty));
         System.out.println("Updated: " + updated);
     }
 
-    private void deleteAuthor() {
-        int id = readInt("Author id to delete: ");
-        boolean ok = app.deleteAuthor(id);
-        System.out.println(ok ? "Deleted author " + id : "Author not found.");
+    private void deleteDoctor() {
+        int id = readInt("Doctor id to delete: ");
+        boolean ok = app.deleteDoctor(id);
+        System.out.println(ok ? "Deleted Doctor " + id : "Doctor not found.");
     }
 
-    private void findAuthorById() {
-        int id = readInt("Author id: ");
-        Author a = app.findAuthorById(id);
-        System.out.println(a != null ? a : "Author not found.");
+    private void findDoctorById() {
+        int id = readInt("Doctor id: ");
+        Doctor d = app.findDoctorById(id);
+        System.out.println(d != null ? d : "Doctor not found.");
     }
 
-    private void searchAuthorsByName() {
+    private void searchDoctorsByName() {
         String name = readLine("Name to search: ");
-        List<Author> results = app.findAuthorsByName(name);
+        List<Doctor> results = app.findDoctorsByName(name);
         printList(results);
     }
 
-    // ---------------- PAPER MENU ----------------
-    private void paperMenu() {
+    // ---------------- PATIENT MENU ----------------
+    private void patientMenu() {
         boolean back = false;
 
         while (!back) {
-            System.out.println("\n=== PAPER MENU ===");
-            System.out.println("1) Save Paper");
-            System.out.println("2) Update Paper");
-            System.out.println("3) Delete Paper");
-            System.out.println("4) Find Paper by ID");
-            System.out.println("5) Count Papers");
-            System.out.println("6) List Papers Sorted by Title");
-            System.out.println("7) Search Papers by Title");
+            System.out.println("\n=== PATIENT MENU ===");
+            System.out.println("1) Save Patient");
+            System.out.println("2) Update Patient");
+            System.out.println("3) Delete Patient");
+            System.out.println("4) Find Patient by ID");
+            System.out.println("5) Count Patients");
+            System.out.println("6) List Patients Sorted by Name");
+            System.out.println("7) Search Patients by Name");
             System.out.println("0) Back");
 
             int choice = readInt("Choose an option: ");
 
             switch (choice) {
-                case 1 -> savePaper();
-                case 2 -> updatePaper();
-                case 3 -> deletePaper();
-                case 4 -> findPaperById();
-                case 5 -> System.out.println("Paper count: " + app.countPapers());
-                case 6 -> printList(app.listPapersSortedByTitle());
-                case 7 -> searchPapersByTitle();
+                case 1 -> savePatient();
+                case 2 -> updatePatient();
+                case 3 -> deletePatient();
+                case 4 -> findPatientById();
+                case 5 -> System.out.println("Patient count: " + app.countPatients());
+                case 6 -> printList(app.listPatientsSortedByName());
+                case 7 -> searchPatientsByName();
                 case 0 -> back = true;
                 default -> System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
-    private void savePaper() {
-        int id = readInt("Paper id: ");
-        String title = readLine("Paper title: ");
-        int year = readInt("Paper year: ");
-        int authorId = readInt("Author id (who wrote it): ");
+    private void savePatient() {
+        int id = readInt("Patient id: ");
+        String name = readLine("Patient name: ");
+        int age = readInt("Patient age: ");
+        int doctorId = readInt("Doctor id (assigned): ");
 
-        Paper saved = app.savePaper(new Paper(id, title, year, authorId));
+        Patient saved = app.savePatient(new Patient(id, name, age, doctorId));
         System.out.println("Saved: " + saved);
     }
 
-    private void updatePaper() {
-        int id = readInt("Paper id to update: ");
-        String title = readLine("New title: ");
-        int year = readInt("New year: ");
-        int authorId = readInt("Author id (who wrote it): ");
+    private void updatePatient() {
+        int id = readInt("Patient id to update: ");
+        String name = readLine("New name: ");
+        int age = readInt("New age: ");
+        int doctorId = readInt("Doctor id (assigned): ");
 
-        Paper updated = app.updatePaper(new Paper(id, title, year, authorId));
+        Patient updated = app.updatePatient(new Patient(id, name, age, doctorId));
         System.out.println("Updated: " + updated);
     }
 
-    private void deletePaper() {
-        int id = readInt("Paper id to delete: ");
-        boolean ok = app.deletePaper(id);
-        System.out.println(ok ? "Deleted paper " + id : "Paper not found.");
+    private void deletePatient() {
+        int id = readInt("Patient id to delete: ");
+        boolean ok = app.deletePatient(id);
+        System.out.println(ok ? "Deleted Patient " + id : "Patient not found.");
     }
 
-    private void findPaperById() {
-        int id = readInt("Paper id: ");
-        Paper p = app.findPaperById(id);
-        System.out.println(p != null ? p : "Paper not found.");
+    private void findPatientById() {
+        int id = readInt("Patient id: ");
+        Patient p = app.findPatientById(id);
+        System.out.println(p != null ? p : "Patient not found.");
     }
 
-    private void searchPapersByTitle() {
-        String title = readLine("Title to search: ");
-        List<Paper> results = app.findPapersByTitle(title);
+    private void searchPatientsByName() {
+        String name = readLine("Name to search: ");
+        List<Patient> results = app.findPatientsByName(name);
         printList(results);
     }
 

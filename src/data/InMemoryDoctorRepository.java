@@ -5,41 +5,52 @@ import model.Doctor;
 import java.util.*;
 
 public class InMemoryDoctorRepository implements DoctorRepository {
-    private Map<Integer, Doctor> authors = new HashMap<>();
 
-    public Doctor save(Doctor a) {
-        authors.put(a.getId(), a);
-        return a;
+    private final Map<Integer, Doctor> doctors = new HashMap<>();
+
+    @Override
+    public Doctor save(Doctor d) {
+        doctors.put(d.getId(), d);
+        return d;
     }
 
-    public Doctor update(Doctor a) {
-        authors.put(a.getId(), a);
-        return a;
+    @Override
+    public Doctor update(Doctor d) {
+        doctors.put(d.getId(), d);
+        return d;
     }
 
+    @Override
     public boolean delete(int id) {
-        return authors.remove(id) != null;
+        return doctors.remove(id) != null;
     }
 
+    @Override
     public Doctor findById(int id) {
-        return authors.get(id);
+        return doctors.get(id);
     }
 
+    @Override
     public long count() {
-        return authors.size();
+        return doctors.size();
     }
 
+    @Override
     public List<Doctor> findAllByOrderByName() {
-        List<Doctor> list = new ArrayList<>(authors.values());
-        list.sort(Comparator.comparing(Doctor::getName));
+        List<Doctor> list = new ArrayList<>(doctors.values());
+        list.sort(Comparator.comparing(
+                Doctor::getName,
+                String.CASE_INSENSITIVE_ORDER
+        ));
         return list;
     }
 
+    @Override
     public List<Doctor> findByName(String name) {
         List<Doctor> result = new ArrayList<>();
-        for (Doctor a : authors.values()) {
-            if (a.getName().equalsIgnoreCase(name)) {
-                result.add(a);
+        for (Doctor d : doctors.values()) {
+            if (d.getName() != null && d.getName().equalsIgnoreCase(name)) {
+                result.add(d);
             }
         }
         return result;

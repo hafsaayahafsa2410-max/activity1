@@ -1,36 +1,36 @@
 package app;
 
-import business.AuthorManager;
-import business.PaperManager;
-import model.Author;
-import model.Paper;
+import business.DoctorManager;
+import business.PatientManager;
+import model.Doctor;
+import model.Patient;
 
 import java.util.List;
 
 public class AppFacade {
-    private final AuthorManager authorManager;
-    private final PaperManager paperManager;
+    private final DoctorManager doctorManager;
+    private final PatientManager patientManager;
 
-    public AppFacade(AuthorManager authorManager, PaperManager paperManager) {
-        this.authorManager = authorManager;
-        this.paperManager = paperManager;
+    public AppFacade(DoctorManager doctorManager, PatientManager patientManager) {
+        this.doctorManager = doctorManager;
+        this.patientManager = patientManager;
     }
 
-    // ---------- AUTHOR operations ----------
-    public Author saveAuthor(Author a) { return authorManager.save(a); }
-    public Author updateAuthor(Author a) { return authorManager.update(a); }
-    public boolean deleteAuthor(int id) { return authorManager.delete(id); }
-    public Author findAuthorById(int id) { return authorManager.findById(id); }
-    public long countAuthors() { return authorManager.count(); }
-    public List<Author> listAuthorsSortedByName() { return authorManager.listSorted(); }
-    public List<Author> findAuthorsByName(String name) { return authorManager.findByName(name); }
+    //  Doctor operations
+    public Doctor saveDoctor(Doctor d) { return doctorManager.save(d); }
+    public Doctor updateDoctor(Doctor d) { return doctorManager.update(d); }
+    public boolean deleteDoctor(int id) { return doctorManager.delete(id); }
+    public Doctor findDoctorById(int id) { return doctorManager.findById(id); }
+    public long countDoctors() { return doctorManager.count(); }
+    public List<Doctor> listDoctorsSortedByName() { return doctorManager.listSorted(); }
+    public List<Doctor> findDoctorsByName(String name) { return doctorManager.findByName(name); }
 
-    // ---------- PAPER operations ----------
-    public Paper savePaper(Paper p) { return paperManager.save(p); }
-    public Paper updatePaper(Paper p) { return paperManager.update(p); }
-    public boolean deletePaper(int id) { return paperManager.delete(id); }
-    public Paper findPaperById(int id) { return paperManager.findById(id); }
-    public long countPapers() { return paperManager.count(); }
-    public List<Paper> listPapersSortedByTitle() { return paperManager.listSorted(); }
-    public List<Paper> findPapersByTitle(String title) { return paperManager.findByTitle(title); }
+    //  Patient operations
+    public Patient savePatient(Patient p) { return patientManager.save(p); }
+    public Patient updatePatient(Patient p) { return patientManager.update(p); }
+    public boolean deletePatient(int id) { return patientManager.delete(id); }
+    public Patient findPatientById(int id) { return patientManager.findById(id); }
+    public long countPatients() { return patientManager.count(); }
+    public List<Patient> listPatientsSortedByName() { return patientManager.listSorted(); }
+    public List<Patient> findPatientsByName(String name) { return patientManager.findByName(name); }
 }

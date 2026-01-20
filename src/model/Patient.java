@@ -1,5 +1,10 @@
 package model;
-
+/*
+ * Patient.java
+ * This class represents a Patient.
+ * It stores basic patient info (id, name, age) and also doctorId to connect the patient to a doctor.
+ * Same idea as Doctor: clean fields, getters/setters, and toString() for readable output.
+ */
 public class Patient {
     private int id;
     private String name;

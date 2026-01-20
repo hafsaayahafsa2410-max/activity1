@@ -1,4 +1,10 @@
 package model;
+/*
+ * Doctor.java
+ * This class represents a Doctor in our system.
+ * It’s basically the “data object” for a doctor (id, name, specialty).
+ * we keep it simple with constructors, getters/setters, and toString() so it prints nicely in the CLI.
+ */
 
 public class Doctor {
     private int id;
