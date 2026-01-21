@@ -1,5 +1,11 @@
 package app;
-
+/*
+ * AppFacade.java
+ * This is the one door the UI uses to access the whole application.
+ * Instead of the UI calling managers/repositories directly, it calls AppFacade methods.
+ * AppFacade then delegates to DoctorManager and PatientManager.
+ * This keeps the UI simple and  the architecture clean.
+ */
 import business.DoctorManager;
 import business.PatientManager;
 import model.Doctor;

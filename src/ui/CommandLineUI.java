@@ -1,5 +1,10 @@
 package ui;
-
+/*
+ * CommandLineUI.java
+ * This is the console menu the user interacts with.
+ * It prints options, reads input using Scanner, and calls AppFacade to do the real work.
+ * The UI doesn’t touch repositories directly it only uses the facade.
+ */
 import app.AppFacade;
 import model.Doctor;
 import model.Patient;
@@ -34,7 +39,7 @@ public class CommandLineUI {
         System.out.println("Goodbye!");
     }
 
-    // ---------------- MAIN MENU ----------------
+    //  MAIN MENU
     private void printMainMenu() {
         System.out.println("\n=== MAIN MENU ===");
         System.out.println("1) Manage Doctors");
@@ -42,7 +47,7 @@ public class CommandLineUI {
         System.out.println("0) Exit");
     }
 
-    // ---------------- DOCTOR MENU ----------------
+    //  DOCTOR MENU
     private void doctorMenu() {
         boolean back = false;
 
@@ -109,7 +114,7 @@ public class CommandLineUI {
         printList(results);
     }
 
-    // ---------------- PATIENT MENU ----------------
+    //  PATIENT MENU
     private void patientMenu() {
         boolean back = false;
 
@@ -178,7 +183,7 @@ public class CommandLineUI {
         printList(results);
     }
 
-    // ---------------- HELPERS ----------------
+
     private int readInt(String prompt) {
         while (true) {
             System.out.print(prompt);
